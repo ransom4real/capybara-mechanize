@@ -10,7 +10,21 @@ class Capybara::Mechanize::Browser < Capybara::RackTest::Browser
   def initialize(app, options)
     @agent = ::Mechanize.new
     @agent.redirect_ok = false
-
+	if !options.empty?
+		if options[:proxy] && !options[:proxy].empty?
+			proxy = nil
+			begin
+				proxy = URI.parse(options[:proxy])
+			rescue URI::InvalidURIError => e
+				raise "You have entered an invalid proxy address #{options[:proxy]}. Check proxy settings."
+			end
+			if proxy && proxy.instance_of?(URI::HTTP) 
+				@agent.set_proxy(proxy.host, proxy.port)
+			else
+				raise "ProxyError: You have entered an invalid proxy address #{options[:proxy]}. e.g. (http|https)://proxy.com(:port)"
+			end
+		end
+	end
     super
   end
   
@@ -163,7 +177,7 @@ class Capybara::Mechanize::Browser < Capybara::RackTest::Browser
       if remote_uri.host.nil?
         remote_host = @last_remote_host || Capybara.app_host || Capybara.default_host
         url = File.join(remote_host, url)
-        url = "http://#{url}" unless url.include?("http")
+        url = "http://#{url}" unless url =~ /^http:/
       else
         @last_remote_host = "#{remote_uri.host}:#{remote_uri.port}"
       end

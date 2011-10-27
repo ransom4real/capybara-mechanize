@@ -32,3 +32,6 @@ RSpec.configure do |config|
 end
 
 REMOTE_TEST_URL = "http://localhost"
+GOOD_PROXY = "http://proxy.com"
+BAD_PROXY = "fasfasfasfasf"
+PROXY_WITH_PORT = "http://proxy.com:520"

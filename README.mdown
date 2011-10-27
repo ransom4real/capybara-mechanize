@@ -37,6 +37,19 @@ When you want to use this driver to test a remote application. You have to set t
     
 Note that I haven't tested this case for my self yet. The Capybara tests pass for this situation though so it should work! Please provide me with feedback if it doesn't.
 
+### Mechanize using proxy
+
+If you are behind a proxy, you can specify an PROXY=ON ENV variable on the command line and setup mechanize to use proxy or not as below:
+
+	Capybara.register_driver :mechanize do |app|
+  		Capybara.app_host = "http://www.yourapp.com"
+  		if ENV['PROXY'] == 'ON'
+  			Capybara::Mechanize::Driver.new(app,{:proxy =>"http://yourproxy.com"})
+  		else
+  			Capybara::Mechanize::Driver.new(app)
+  		end
+	end
+	
 ## Running tests
 
 Until this library is merged with capybara there needs to be local app and you need to add the following to your host file:

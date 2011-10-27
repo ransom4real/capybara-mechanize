@@ -56,3 +56,40 @@ describe Capybara::Mechanize::Driver do
   end
   
 end
+
+describe "Capybara::Mechanize::Driver, browser" do
+  before(:each) do
+    Capybara.app_host = REMOTE_TEST_URL
+  end
+  
+  after(:each) do
+    Capybara.app_host = nil
+  end
+    context "in remote mode" do
+  		it "should not throw an error when empty option is passed" do
+      		running do
+        		Capybara::Mechanize::Driver.new(ExtendedTestApp, {})
+      		end.should_not raise_error()
+    	end
+    	
+    	it "should throw an error when bad proxy option is passed" do
+      		running do
+        		Capybara::Mechanize::Driver.new(ExtendedTestApp, {:proxy => BAD_PROXY}).browser
+      		end.should raise_error("ProxyError: You have entered an invalid proxy address #{BAD_PROXY}. e.g. (http|https)://proxy.com(:port)")
+    	end
+    	
+    	it "should not throw an error when good proxy option is passed" do
+      		running do
+        		Capybara::Mechanize::Driver.new(ExtendedTestApp, {:proxy => GOOD_PROXY}).browser
+      		end.should_not raise_error()
+    	end
+    	
+    	it "should not throw an error when good proxy with port option is passed" do
+      		running do
+        		Capybara::Mechanize::Driver.new(ExtendedTestApp, {:proxy => PROXY_WITH_PORT}).browser
+      		end.should_not raise_error()
+    	end
+    	
+    	
+  	end
+end
