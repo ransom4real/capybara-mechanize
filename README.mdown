@@ -1,17 +1,12 @@
 Capybara-mechanize
 ==================
 
-This gems makes it possible to use Capybara for (partially) remote testing. It inherits most functionality from the RackTest driver and only uses [Mechanize](http://github.com/tenderlove/mechanize) for remote requests. 
-
-It is currently in use to test the integration between a Rails application and Twitter authorization and sharing.
-
-This gem is a [Capybara](http://github.com/jnicklas/capybara) extension. I have been inspired by the Capybara driver and some earlier efforts for a Mechanize driver.
-
-Thanks to [Pinkelstar](http://www.pinkelstar.com) for giving me the time and the need to develop this gem.
+Forked from mobzilla/capybara-mechanize and modified to suit the needs of using capybara mechanize from behind a proxy
+or firewall. 
 
 ### Installation
 
-    gem install capybara-mechanize
+    gem install capybara-mechanize-with-proxy
 
 ### Usage without Cucumber
 
